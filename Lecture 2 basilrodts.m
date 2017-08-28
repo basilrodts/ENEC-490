@@ -1,7 +1,7 @@
 [num,txt,raw]= xlsread('EER_EPMRU_PF4_Y35NY_DPGm.xls','Data 1');
 matrix=[];
 idx=8;
-while idx<367
+while idx<367 %looping through the years 1987 thru 2016, finding mean over 12 months
     matrix=[matrix mean(num(idx:idx+11,2))];
     idx=idx+12;
 end
