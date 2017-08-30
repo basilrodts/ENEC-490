@@ -45,19 +45,19 @@ legend('April','January');
 %price?? That would mean you would be paying other people to take the
 %natural gas instead of making money on it.
 
-function [ n ] = monthly_stats( data )
+%function [ n ] = monthly_stats( data )
 %UNTITLED9 Summary of this function goes here
 %   Mean and std of every month from 2008 to present
-n=zeros(12,2);
-idx=133;
-mn=[];
-sd=[];
-for idx=133:144
-    mn=[mn mean(data(idx:12:end))];
-    sd=[sd std(data(idx:12:end))];
+%n=zeros(12,2);
+%idx=133;
+%mn=[];
+%sd=[];
+%for idx=133:144
+   % mn=[mn mean(data(idx:12:end))];
+   % sd=[sd std(data(idx:12:end))];
 
-end
+%end
 
-mn=mn';
-sd=sd';
-n=[mn sd];
+%mn=mn';
+%sd=sd';
+%n=[mn sd];
