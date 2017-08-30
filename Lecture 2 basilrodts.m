@@ -2,7 +2,7 @@
 matrix=[];
 idx=8;
 while idx<367 %looping through the years 1987 thru 2016, finding mean over 12 months
-    matrix=[matrix mean(num(idx:idx+11,2))];
+    matrix=[matrix mean(num(idx:idx+11))];
     idx=idx+12;
 end
 matrix=matrix';
