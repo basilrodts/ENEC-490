@@ -84,13 +84,13 @@ xlabel('Months','FontSize',14);
 ylabel('Autocorrelation','FontSize',14);
 
 %Monte Carlo
+stats = monthly_stats(d);
 
 num_years = 10;
 monte_carlo_sample = zeros(12*num_years,1);
 for i = 1:num_years
     for j = 1:12
-    t = ceil(years*randn(1));
-    monte_carlo_sample((i-1)*12+j) = d(j,t);
+        monte_carlo_sample((i-1)*12+j) = stats() + stats()*randn(1);
     end
 end
 
