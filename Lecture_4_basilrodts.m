@@ -89,7 +89,10 @@ num_years = 10;
 monte_carlo_sample = zeros(12*num_years,1);
 for i = 1:num_years
     for j = 1:12
-    t = ceil(years*randn(1));
+    t = ceil(years*abs(randn(1)));
+    if t>18
+        t=18;
+    end
     monte_carlo_sample((i-1)*12+j) = d(j,t);
     end
 end
