@@ -83,11 +83,11 @@ for idx = 1:24:length(processed_data)
 end
 peak=peak';
 
-tempdata=csvread('tempdata.csv');
+tempdata=csvread('tempdata.csv'); %read temperature
 figure;
-a=peak(:,1)./10^3;
-scatter((1:1:365)',a);
+a=peak(:,1)./10^3;%reduce magnitude for graphical purposes, include in legend
+scatter((1:1:365)',a); %scatter for peak
 hold on;
-scatter((1:1:365)',tempdata(:,2));
+scatter((1:1:365)',tempdata(:,2)); %scatter for temp
 xlabel('Time in Days');
-legend('Peak Electricity (10^-3)', 'Temperature');
+legend('Peak Electricity (10^-3)', 'Temperature (F)');
