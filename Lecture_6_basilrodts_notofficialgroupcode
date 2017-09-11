@@ -85,4 +85,4 @@ sorted_data1 = round(sortrows(together,2));
 figure;
 boxplot(sorted_data1(:,1),sorted_data1(:,2));
 xlabel('Day of the Week');
-ylabel('Peak Energy Usage mWh 10^-3')
+ylabel('Peak Energy Usage gWh 10^-3')
