@@ -81,7 +81,7 @@ together=[peak week];
 %mon=together(together(:,2)==2,1);
 %tues=together(together(:,2)==3,1);
 
-sorted_data1 = round(sortrows(together,2));
+sorted_data1 = (sortrows(together,2));
 figure;
 boxplot(sorted_data1(:,1),sorted_data1(:,2));
 xlabel('Day of the Week');
