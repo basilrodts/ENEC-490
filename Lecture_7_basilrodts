@@ -1,0 +1,52 @@
+data2012=xlsread('coal860_data.xlsx','2012_coal');
+data2015=xlsread('coal860_data.xlsx','2015_coal');
+% year=[];
+% a=[];
+% b=[];
+% c=[];
+% for idx=1925:1:2012
+%      a=(find(data2012(:,4)==idx));
+%      b=round((data2012(a,3)));
+%      c=sum(b);
+%      year=[year c];   
+% end
+
+years=1925:1:2012;
+[rows, columns]=size(years);
+bins=zeros(columns,1);
+
+for i=1:length(data2012)
+    yr=data2012(i,4);
+    bin_number=find(years==yr);
+    bins(bin_number)=bins(bin_number)+data2012(i,3);
+end
+figure;
+bar(bins,'FaceColor', [.8 .8 .8], 'EdgeColor', [.7 .7 .7], 'LineWidth', .01);
+hold on;
+ax=gca;
+ax.XTick=([1 11 21 31 41 51 61 71 81 91]);
+ax.XTickLabel=({'1925','1935','1945','1955','1965','1975','1985','1995','2005','2010'});
+xlabel('Year');
+ylabel('Capacity (MW)');
+set(ax,'FontSize',12)
+
+difference=setdiff(data2012,data2015,'rows');
+[rows,columns]=size(years);
+box=zeros(columns,1);
+
+for i=1:length(difference)
+    yr=difference(i,4);
+    box_number=find(years==yr);
+    box(box_number)=box(box_number)+difference(i,3);
+end
+
+bar(box,'FaceColor', [0 0 1], 'EdgeColor', [0 0 1], 'LineWidth', .01);
+
+ax=gca;
+ax.XTick=([1 11 21 31 41 51 61 71 81 91]);
+ax.XTickLabel=({'1925','1935','1945','1955','1965','1975','1985','1995','2005','2010'});
+xlabel('Year');
+ylabel('Capacity (MW)');
+set(ax,'FontSize',12)
+legend('Operating in 2012','Retired between 2012-2015');
+hold off;
