@@ -1,0 +1,56 @@
+%Lecture9
+
+[data text combined]  = xlsread('state_fuel_cf.xlsx');
+
+%conditional 
+state = 'NC';
+fuel = 'SUN';
+cf = .20;
+
+% state probabilities
+a = strcmp(state,text(:,1));
+state_plants = find(a(:,1)>0);
+state_prob=sum(a)/length(data)
+%state_prob = length(state_plants)/length(data);
+
+% fuel probablities 
+a = strcmp(fuel,text(:,2));
+fuel_plants = find(a(:,1)>0);
+fuel_prob=sum(a)/length(data)
+
+%capacity factor probability
+a = (cf <= data(:,1));
+%fuel_plants = find(a(:,1)>0);
+cf_prob=sum(a)/length(data)
+
+
+%7b
+%i
+sun=strcmp('SUN', text(:,2));
+sun_r=find(sun(:,1)>0);
+ncplant=text(sun_r,:);
+ncplant1=strcmp('NC',ncplant(:,1));
+ncplantprob=sum(ncplant1)/sum(sun)
+%ii
+nc=strcmp('NC', text(:,1));
+nc_r=find(nc(:,1)>0);
+ncsun=text(nc_r,:);
+ncsun1=strcmp('SUN',ncsun(:,2));
+ncsunprob=sum(ncsun1)/sum(nc)
+%iii 
+probiii=cf_prob*state_prob*fuel_prob
+
+cf20=(cf <= data(:,1));
+newmatrix=text(cf20,:);
+sun1=strcmp('SUN',newmatrix(:,2));
+sun1_r=find(sun(:,1)>0);
+newmatrix2=text(sun1_r,:);
+nc1=strcmp('NC',newmatrix(:,1));
+iii=sum(nc1)/sum(length(data));
+%iv 0.8033
+
+ncsun1_r=find(ncsun1(:,1)>0);
+ncsun3=sum(ncsun1(:,1)>0);
+newconditional=data(ncsun1_r,:);
+cf020= sum(cf <= newconditional);
+iv=cf020/ncsun3
