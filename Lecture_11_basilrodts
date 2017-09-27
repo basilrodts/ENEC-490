@@ -1,0 +1,55 @@
+% data=xlsread('temp_demand.xlsx');
+t_data = xlsread('temp_demand.xlsx','training');
+v_data = xlsread('temp_demand.xlsx','validation');
+t_temps = t_data(:,1);
+t_demand = t_data(:,3);
+v_temps = v_data(:,1);
+v_demand = v_data(:,3);
+
+t_CDD = max(t_temps - 65,0);
+t_HDD = max(65 - t_temps,0);
+v_CDD = max(v_temps - 65,0);
+v_HDD = max(65 - v_temps,0);
+
+X = [ones(length(t_CDD),1) t_CDD t_HDD];
+
+% y=x1 b1 +x2b2+c 
+[BETA,SIGMA,RESID]=mvregress(X,t_demand);
+
+Y = [ones(length(v_CDD),1) v_CDD v_HDD];
+Y1=[];
+a=BETA(1,1);
+b=BETA(2,1);
+c=BETA(3,1);
+
+% y2=a+b(v_CDD)+c(v_HDD);
+for i=1:length(v_CDD)
+    Y1(i)=a+b*(v_CDD(i))+c*(v_HDD(i));
+end
+Y1=Y1';
+figure
+scatter(Y1,v_demand); 
+xlabel('Predicted demand (GWh)')
+ylim([8000, 20600]);
+ylabel('Actual demand (GWh)')
+title('Predicted Demand versus Actual Demand')
+ for i=1:length(v_CDD)
+     z(i)=(v_demand(i)-Y1(i)).^2;
+ end
+SSE=sum(z);
+
+mn=mean(v_demand);
+for i=1:length(v_CDD)
+     g(i)=(v_demand(i)-mn).^2;
+ end
+SST=sum(g);
+R2=1-SSE/SST;
+
+RMSE=sqrt(SSE/length(v_demand));
+
+residuals=Y1-v_demand;
+figure;
+scatter(v_demand,residuals)
+title('Actual Demand versus Residuals');
+xlabel('Actual Demand (MWh)');
+ylabel('Residuals');
