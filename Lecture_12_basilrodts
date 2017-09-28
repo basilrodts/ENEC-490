@@ -1,0 +1,57 @@
+%Lecture12
+
+data=xlsread('peak_forecasting.xlsx','RegressionData');
+insample = data(1:9,:);
+outsample = data(10:end,:);
+
+Y = insample(:,2);
+X = [ones(length(Y),1) insample(:,3:end)];
+coeff = mvregress(X,Y);
+
+
+% predicted
+predicted = coeff(1) + coeff(2)*outsample(:,3) + coeff(3)*outsample(:,4) + coeff(4)*outsample(:,5) + coeff(5)*outsample(:,6);
+
+% actual
+actual = outsample(:,2);
+
+% scatterplot
+scatter(actual,predicted);
+
+% RMSE
+sq_errors = (predicted - actual).^2;  % Squared Errors
+RMSE = sqrt(mean((sq_errors)));   % Root Mean Squared Error
+
+
+data1=xlsread('peak_forecasting.xlsx','HistoricalTemps');
+temp=data1(:,2);
+years=floor(length(temp)/365);
+annual_peak=zeros(years,1);
+
+for i=1:years
+    annual=temp((i-1)*365+i:(i-1)*365+365);
+    annual_peak(i)=max(annual);
+end
+
+mn=mean(annual_peak);
+sd=std(annual_peak);
+sample=mn+sd*randn(1000,1);
+
+new_predicted=coeff(1) + coeff(2)*1.8 + coeff(3)*5.32 + coeff(4)*0.87 + coeff(5)*sample;
+
+for i=1:length(new_predicted)
+RM(i)=((25000-new_predicted(i))/25000)*100;
+end
+RM=RM';
+figure;
+histogram(new_predicted)
+xlabel('Peak Demand (MW)');
+ylabel('Frequency (out of 1000)');
+figure;
+histogram(RM)
+xlabel('Reserve Margin(%)');
+ylabel('Frequency (out of 1000)');
+lwrthan15=sum(RM<15)/1000
+
+%more than 25% of samples were lower than 15% Reserve Margin, thus the new
+%plant should be built
